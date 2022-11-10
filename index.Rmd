@@ -32,7 +32,7 @@ comp_mean_dem <- icj_comp |>
   summarize(comp_mean =  mean(Compliance, na.rm = TRUE)) 
 
 library(ggplot2)
-ggplot(comp_mean_dem, 
+comp_mean_plot <- ggplot(comp_mean_dem, 
        mapping = aes(
       x = factor(democracy),
       y = comp_mean,
@@ -44,6 +44,7 @@ ggplot(comp_mean_dem,
        title = "Democracy vs. Non-Democracy Compliance with ICJ Decisions") +
   scale_x_discrete(labels = c("Non-Democracy", "Democracy")) +
   theme(legend.position = "none")
+comp_mean_plot
 ```
 
 Sources:
