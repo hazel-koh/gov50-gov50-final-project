@@ -21,7 +21,7 @@ Are democracies more likely to comply with international law? I hope to answer t
 ## Data Visualization
 ```{r}
 library(tidyverse)
-icj_comp <- read_csv("icjcompliance.csv")
+icj_comp <- read_csv("icjcompliance2.csv")
 icj_comp
 
 comp_mean_dem <- icj_comp |>
