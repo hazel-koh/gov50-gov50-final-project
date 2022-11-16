@@ -57,6 +57,6 @@ fit |>
   knitr::kable(digits = 2)
 ```
 
-On average, democracies tend to comply more with International Court of Justice (ICJ) decisions. Non-democracies have a 66.7% likelihood of complying, while democracies have a 71.1% likelihood. Therefore, if a state is democratic, it is approximately 4% more likely to respect ICJ rulings than non-democratic states.
+On average, democracies tend to comply more with International Court of Justice (ICJ) decisions. Non-democracies have a 66.7% likelihood of complying, while democracies have a 71.1% likelihood. Therefore, if a state is democratic, it is approximately 4% more likely to comply with ICJ rulings than non-democratic states.
 
 Sources: - <https://www.systemicpeace.org/polity/polity4x.htm> <http://www.systemicpeace.org/inscrdata.html> - <https://www.ifo.de/DocDL/dice-report-2019-3-hainz_moffet_rhode-october_0.pdf>
