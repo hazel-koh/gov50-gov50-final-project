@@ -43,6 +43,8 @@ comp_mean_plot <- ggplot(comp_mean_dem,
   scale_x_discrete(labels = c("Non-Democracy", "Democracy")) +
   theme(legend.position = "none")
 comp_mean_plot
+
+ggsave("comp_mean_plot.png")
 ```
 
 ## Results and Analysis
