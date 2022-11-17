@@ -115,7 +115,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["icjcompliance.csv","icjcompliance2.csv","icjcompliance3.csv","icjcompliance3.numbers","icjcompliance4.csv","icjcomplianceclean.numbers","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/unnamed-chunk-1-1.png","index_files/header-attrs-2.16/header-attrs.js","index_files/header-attrs-2.17/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["comp_mean_plot.png","icjcompliance.csv","icjcompliance2.csv","icjcompliance3.csv","icjcompliance3.numbers","icjcompliance4.csv","icjcomplianceclean.numbers","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/unnamed-chunk-1-1.png","index_files/header-attrs-2.16/header-attrs.js","index_files/header-attrs-2.17/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1569,8 +1569,12 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span><span class='op'>(</span>legend.position <span class='op'>=</span> <span class='st'>"none"</span><span class='op'>)</span></span>
 <span><span class='va'>comp_mean_plot</span></span></code></pre>
 </div>
-<p><img src="index_files/figure-html5/unnamed-chunk-1-1.png" width="624" /></p>
+<img src="index_files/figure-html5/unnamed-chunk-1-1.png" width="624" />
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggsave.html'>ggsave</a></span><span class='op'>(</span><span class='st'>"comp_mean_plot.png"</span><span class='op'>)</span></span></code></pre>
 </div>
+</div>
+<p><img src="comp_mean_plot.png" /></p>
 <h2 id="results-and-analysis">Results and Analysis</h2>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
@@ -1608,20 +1612,10 @@ Coefficients:
 </tr>
 </tbody>
 </table>
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>fit</span></span></code></pre>
 </div>
-<pre><code>
-Call:
-lm(formula = comp_mean ~ democracy, data = comp_mean_dem)
-
-Coefficients:
-(Intercept)    democracy  
-    0.66667      0.04386  </code></pre>
-</div>
-<p>On average, democracies tend to comply more with International Court of Justice decisions. Non-democracies have a 66.7% likelihood of complying with decisions, while democracies have a 71.1% likelihood. Therefore, if a state is democratic, it is approximately 4% more likely to comply than non-democratic states.</p>
+<p>On average, democracies tend to comply more with International Court of Justice (ICJ) decisions. Non-democracies have a 66.7% likelihood of complying, while democracies have a 71.1% likelihood. Therefore, if a state is democratic, it is approximately 4% more likely to comply with ICJ rulings than non-democratic states.</p>
 <p>Sources: - <a href="https://www.systemicpeace.org/polity/polity4x.htm" class="uri">https://www.systemicpeace.org/polity/polity4x.htm</a> <a href="http://www.systemicpeace.org/inscrdata.html" class="uri">http://www.systemicpeace.org/inscrdata.html</a> - <a href="https://www.ifo.de/DocDL/dice-report-2019-3-hainz_moffet_rhode-october_0.pdf" class="uri">https://www.ifo.de/DocDL/dice-report-2019-3-hainz_moffet_rhode-october_0.pdf</a></p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
