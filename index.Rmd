@@ -51,10 +51,10 @@ ggsave("comp_mean_plot.png")
 ## Results and Analysis
 
 ```{r}
-fit <- lm(comp_mean ~ democracy, data = comp_mean_dem)
-fit
+fit1 <- lm(comp_mean ~ democracy, data = comp_mean_dem)
+fit1
 
-fit |>
+fit1 |>
   broom::tidy() |>
   select(term, estimate) |>  
   knitr::kable(digits = 2)
