@@ -46,6 +46,7 @@ comp_mean_plot
 
 ggsave("comp_mean_plot.png")
 ```
+![](comp_mean_plot.png)
 
 ## Results and Analysis
 
