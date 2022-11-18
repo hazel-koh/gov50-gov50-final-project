@@ -115,7 +115,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["comp_mean_plot.png","icjcompliance.csv","icjcompliance2.csv","icjcompliance3.csv","icjcompliance3.numbers","icjcompliance4.csv","icjcomplianceclean.numbers","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/unnamed-chunk-1-1.png","index_files/header-attrs-2.16/header-attrs.js","index_files/header-attrs-2.17/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["comp_mean_plot.png","icjcompliance.csv","icjcompliance2.csv","icjcompliance3.csv","icjcompliance3.numbers","icjcompliance4.csv","icjcomplianceclean.numbers","index_files/anchor-4.2.2/anchor.min 2.js","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min 2.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2 2.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/Data Visualization 1: Democracy vs. Non-Democracy-1.png","index_files/figure-html5/Data Visualization 2: Polity Score Breakdown-1.png","index_files/figure-html5/Scatterplot: Relationship between Democracy and Compliance-1.png","index_files/figure-html5/unnamed-chunk-1-1.png","index_files/figure-html5/Visual Summary of Dependent Variable-1.png","index_files/header-attrs-2.16/header-attrs 2.js","index_files/header-attrs-2.16/header-attrs.js","index_files/header-attrs-2.17/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0 2.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min 2.js","index_files/jquery-3.6.0/jquery-3.6.0.min 2.map","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min 2.js","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy 2.css","index_files/tippy-6.2.7/tippy-bundle.umd.min 2.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border 2.css","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min 2.js","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents 2.js","index_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1521,14 +1521,15 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <p>I am interested in exploring data related to compliance with International Court of Justice decisions. I would like to determine whether a state’s level of democracy, their government’s ideology, or their aggregate power has a treatment effect on their willingness to comply with the Court’s decisions. I will decide which of these treatment variables I would like to focus on based on the data I’m able to find.</p>
 <h2 id="research-proposal">Research Proposal</h2>
 <p>Are democracies more likely to comply with international law? I hope to answer this research question by analyzing democratic states’ compliance with International Court of Justice (ICJ) decisions. I hypothesize that democracies have a higher record of compliance than their autocratic counterparts. My hypothesis stems from the tendency of democracies to value justice and respect the rule of law more than autocracies. Democracies might also face more pressure to comply, as they have greater accountability to their publics through transparency. My sample is comprised of ICJ cases that have occurred from 1947 to 2018. My unit of analysis is an ICJ case. The explanatory variable of interest is whether a state is a democracy or an autocracy according to their Polity score. The variable is coded = 1 for democracies (+6 to +10) and =0 for anocracies and autocracies (-10 to +5). For the purposes of this study, anocracies will be coded as autocracies. My outcome variable is a state’s compliance rate. This variable is measured from Tom Ginsburg’s data on ICJ compliance found in the Comparative Constitutions Project’s dataset. I will calculate the compliance rate of states by dividing the number of times they have complied with an ICJ judgement by the number of times they have been required them to comply to a ruling. I would find support for my hypothesis if I observe a greater compliance rate by democracies and a positive coefficient when I run my regression of the compliance rate on the democracy variable. If I find that there is a negative or no relationship between these two variables, I will have to re-evaluate my hypothesis.</p>
-<h2 id="data-visualization">Data Visualization</h2>
+<h2 id="data-visualizations">Data Visualizations</h2>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span></span>
-<span><span class='va'>icj_comp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"icjcompliance4.csv"</span><span class='op'>)</span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://ggplot2.tidyverse.org'>ggplot2</a></span><span class='op'>)</span></span>
+<span><span class='va'>icj_comp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"icjcompliance2.csv"</span><span class='op'>)</span></span>
 <span><span class='va'>icj_comp</span></span></code></pre>
 </div>
-<pre><code># A tibble: 152 × 9
+<pre><code># A tibble: 146 × 9
      No. Title Regis…¹ Judge…² Appli…³ Respo…⁴ Burde…⁵ Time-…⁶ Compl…⁷
    &lt;dbl&gt; &lt;chr&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt;
  1     1 Corf…    1947    1949 United… Albania Albania      -9       0
@@ -1541,21 +1542,28 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
  8    17 Minq…    1951    1953 France… &lt;NA&gt;    France       10       1
  9    18 Nott…    1951    1955 Liecht… Guatem… Liecht…      NA       1
 10    19 Case…    1953    1954 Italy   France… &lt;NA&gt;         NA      NA
-# … with 142 more rows, and abbreviated variable names
+# … with 136 more rows, and abbreviated variable names
 #   ¹​`Registration Year`, ²​`Judgement Year`,
 #   ³​`Applicant\n or parties to SA`, ⁴​Respondent,
 #   ⁵​`Burden of Compliance`, ⁶​`Time-Varying Polity Score`,
 #   ⁷​Compliance</code></pre>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>comp_mean_dem</span> <span class='op'>&lt;-</span> <span class='va'>icj_comp</span> <span class='op'>|&gt;</span></span>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>## democracy vs. non-democracy barplot</span></span>
+<span><span class='va'>comp_mean_dem</span> <span class='op'>&lt;-</span> <span class='va'>icj_comp</span> <span class='op'>|&gt;</span></span>
 <span>  <span class='fu'><a href='https://tidyr.tidyverse.org/reference/drop_na.html'>drop_na</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
 <span>    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span></span>
 <span>    democracy <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/if_else.html'>if_else</a></span><span class='op'>(</span><span class='va'>`Time-Varying Polity Score`</span> <span class='op'>&gt;=</span> <span class='fl'>6</span>, <span class='fl'>1</span>, <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
 <span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>democracy</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
 <span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span><span class='op'>(</span>comp_mean <span class='op'>=</span>  <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>Compliance</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span> </span>
-<span></span>
-<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://ggplot2.tidyverse.org'>ggplot2</a></span><span class='op'>)</span></span>
-<span><span class='va'>comp_mean_plot</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>comp_mean_dem</span>, </span>
+<span><span class='va'>comp_mean_dem</span></span></code></pre>
+</div>
+<pre><code># A tibble: 2 × 2
+  democracy comp_mean
+      &lt;dbl&gt;     &lt;dbl&gt;
+1         0     0.625
+2         1     0.730</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>comp_mean_plot</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>comp_mean_dem</span>, </span>
 <span>       mapping <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span></span>
 <span>      x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='va'>democracy</span><span class='op'>)</span>,</span>
 <span>      y <span class='op'>=</span> <span class='va'>comp_mean</span>,</span>
@@ -1569,17 +1577,80 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span><span class='op'>(</span>legend.position <span class='op'>=</span> <span class='st'>"none"</span><span class='op'>)</span></span>
 <span><span class='va'>comp_mean_plot</span></span></code></pre>
 </div>
-<img src="index_files/figure-html5/unnamed-chunk-1-1.png" width="624" />
+<img src="index_files/figure-html5/Data%20Visualization%201:%20Democracy%20vs.%20Non-Democracy-1.png" width="624" />
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggsave.html'>ggsave</a></span><span class='op'>(</span><span class='st'>"comp_mean_plot.png"</span><span class='op'>)</span></span></code></pre>
 </div>
 </div>
-<p><img src="comp_mean_plot.png" /></p>
+<img src="comp_mean_plot.png" />
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>comp_pol</span> <span class='op'>&lt;-</span> <span class='va'>icj_comp</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://tidyr.tidyverse.org/reference/drop_na.html'>drop_na</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span></span>
+<span>    level_of_dem <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/case_when.html'>case_when</a></span><span class='op'>(</span></span>
+<span>      <span class='va'>`Time-Varying Polity Score`</span> <span class='op'>==</span> <span class='fl'>10</span> <span class='op'>~</span> <span class='st'>"Full Democracy"</span>,</span>
+<span>      <span class='va'>`Time-Varying Polity Score`</span> <span class='op'>&lt;</span> <span class='fl'>10</span> <span class='op'>&amp;</span> <span class='va'>`Time-Varying Polity Score`</span> <span class='op'>&gt;=</span> <span class='fl'>6</span> <span class='op'>~</span> <span class='st'>"Democracy"</span>,</span>
+<span>      <span class='va'>`Time-Varying Polity Score`</span> <span class='op'>&lt;</span> <span class='fl'>6</span> <span class='op'>&amp;</span> <span class='va'>`Time-Varying Polity Score`</span> <span class='op'>&gt;=</span> <span class='fl'>1</span> <span class='op'>~</span> <span class='st'>"Open Anocracy"</span>,</span>
+<span>      <span class='va'>`Time-Varying Polity Score`</span> <span class='op'>&lt;</span> <span class='fl'>1</span> <span class='op'>&amp;</span> <span class='va'>`Time-Varying Polity Score`</span> <span class='op'>&gt;=</span> <span class='op'>-</span><span class='fl'>5</span> <span class='op'>~</span> <span class='st'>"Closed Anocracy"</span>,</span>
+<span>      <span class='va'>`Time-Varying Polity Score`</span> <span class='op'>&lt;</span> <span class='op'>-</span><span class='fl'>5</span> <span class='op'>&amp;</span> <span class='va'>`Time-Varying Polity Score`</span> <span class='op'>&gt;=</span> <span class='op'>-</span><span class='fl'>10</span> <span class='op'>~</span> <span class='st'>"Autocracy"</span>,</span>
+<span>    <span class='op'>)</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>level_of_dem</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span><span class='op'>(</span>comp_mean <span class='op'>=</span>  <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>Compliance</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span> </span>
+<span></span>
+<span><span class='va'>comp_pol_plot</span> <span class='op'>&lt;-</span> <span class='va'>comp_pol</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>comp_mean</span>,</span>
+<span>         y <span class='op'>=</span> <span class='fu'><a href='https://forcats.tidyverse.org/reference/fct_reorder.html'>fct_reorder</a></span><span class='op'>(</span><span class='va'>level_of_dem</span>, <span class='va'>comp_mean</span><span class='op'>)</span>,</span>
+<span>         fill <span class='op'>=</span> <span class='va'>level_of_dem</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_col</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_minimal</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='st'>"Average Compliance with ICJ Decisions"</span>,</span>
+<span>       y <span class='op'>=</span> <span class='st'>"Regime Types"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span><span class='op'>(</span>legend.position <span class='op'>=</span> <span class='st'>"none"</span><span class='op'>)</span></span>
+<span><span class='va'>comp_pol_plot</span></span></code></pre>
+</div>
+<p><img src="index_files/figure-html5/Data%20Visualization%202:%20Polity%20Score%20Breakdown-1.png" width="624" /></p>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>icj_comp_bin</span> <span class='op'>&lt;-</span> <span class='va'>icj_comp</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://tidyr.tidyverse.org/reference/drop_na.html'>drop_na</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span></span>
+<span>    democracy <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/if_else.html'>if_else</a></span><span class='op'>(</span><span class='va'>`Time-Varying Polity Score`</span> <span class='op'>&gt;=</span> <span class='fl'>6</span>, <span class='fl'>1</span>, <span class='fl'>0</span><span class='op'>)</span>,</span>
+<span>    compliance <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/if_else.html'>if_else</a></span><span class='op'>(</span><span class='va'>Compliance</span> <span class='op'>==</span> <span class='fl'>1</span>, <span class='st'>"Compliance"</span>, <span class='st'>"Non-compliance"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>comp_mean_plot2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>icj_comp_bin</span>, </span>
+<span>       mapping <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span></span>
+<span>      x <span class='op'>=</span> <span class='va'>democracy</span>,</span>
+<span>      y <span class='op'>=</span> <span class='va'>Compliance</span>, alpha <span class='op'>=</span> <span class='fl'>0.2</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_jitter.html'>geom_jitter</a></span><span class='op'>(</span>width <span class='op'>=</span> <span class='fl'>0.03</span>, height <span class='op'>=</span> <span class='fl'>0.03</span><span class='op'>)</span></span>
+<span><span class='va'>comp_mean_plot2</span></span></code></pre>
+</div>
+<p><img src="index_files/figure-html5/Scatterplot:%20Relationship%20between%20Democracy%20and%20Compliance-1.png" width="624" /></p>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>dem_comp_plot</span> <span class='op'>&lt;-</span> <span class='va'>icj_comp_bin</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span><span class='op'>(</span><span class='va'>democracy</span><span class='op'>)</span>,</span>
+<span>             fill <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span><span class='op'>(</span><span class='va'>democracy</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_bar</a></span><span class='op'>(</span>binwidth <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_discrete.html'>scale_x_discrete</a></span><span class='op'>(</span>labels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Non-Democracy"</span>, <span class='st'>"Democracy"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='st'>""</span>,</span>
+<span>       y <span class='op'>=</span> <span class='st'>"Count"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span><span class='op'>(</span><span class='op'>~</span> <span class='va'>compliance</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_minimal</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span><span class='op'>(</span>legend.position <span class='op'>=</span> <span class='st'>"none"</span><span class='op'>)</span></span>
+<span><span class='va'>dem_comp_plot</span></span></code></pre>
+</div>
+<p><img src="index_files/figure-html5/Visual%20Summary%20of%20Dependent%20Variable-1.png" width="624" /></p>
+</div>
 <h2 id="results-and-analysis">Results and Analysis</h2>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>comp_mean</span> <span class='op'>~</span> <span class='va'>democracy</span>, data <span class='op'>=</span> <span class='va'>comp_mean_dem</span><span class='op'>)</span></span>
-<span><span class='va'>fit</span></span></code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://broom.tidymodels.org/'>broom</a></span><span class='op'>)</span></span>
+<span><span class='va'>fit1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>comp_mean</span> <span class='op'>~</span> <span class='va'>democracy</span>, data <span class='op'>=</span> <span class='va'>comp_mean_dem</span><span class='op'>)</span></span>
+<span><span class='va'>fit1</span></span></code></pre>
 </div>
 <pre><code>
 Call:
@@ -1587,14 +1658,15 @@ lm(formula = comp_mean ~ democracy, data = comp_mean_dem)
 
 Coefficients:
 (Intercept)    democracy  
-    0.66667      0.04386  </code></pre>
+     0.6250       0.1047  </code></pre>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>fit</span> <span class='op'>|&gt;</span></span>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>fit1</span> <span class='op'>|&gt;</span></span>
 <span>  <span class='fu'>broom</span><span class='fu'>::</span><span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
-<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>term</span>, <span class='va'>estimate</span><span class='op'>)</span> <span class='op'>|&gt;</span>  </span>
-<span>  <span class='fu'>knitr</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/knitr/man/kable.html'>kable</a></span><span class='op'>(</span>digits <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span></span></code></pre>
+<span>  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>term</span>, <span class='va'>estimate</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'>knitr</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/knitr/man/kable.html'>kable</a></span><span class='op'>(</span>caption <span class='op'>=</span> <span class='st'>"Coefficient Estimates for a Model Fitted to Estimate Variation in Compliance"</span><span class='op'>)</span></span></code></pre>
 </div>
 <table>
+<caption><span id="tab:unnamed-chunk-1">Table 1: </span>Coefficient Estimates for a Model Fitted to Estimate Variation in Compliance</caption>
 <thead>
 <tr class="header">
 <th style="text-align: left;">term</th>
@@ -1604,18 +1676,225 @@ Coefficients:
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">(Intercept)</td>
-<td style="text-align: right;">0.67</td>
+<td style="text-align: right;">0.6250000</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">democracy</td>
-<td style="text-align: right;">0.04</td>
+<td style="text-align: right;">0.1047297</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>fit1</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code>
+Call:
+lm(formula = comp_mean ~ democracy, data = comp_mean_dem)
+
+Residuals:
+ALL 2 residuals are 0: no residual degrees of freedom!
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)
+(Intercept)   0.6250        NaN     NaN      NaN
+democracy     0.1047        NaN     NaN      NaN
+
+Residual standard error: NaN on 0 degrees of freedom
+Multiple R-squared:      1, Adjusted R-squared:    NaN 
+F-statistic:   NaN on 1 and 0 DF,  p-value: NA</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>fit2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span><span class='op'>(</span><span class='va'>Compliance</span> <span class='op'>~</span> <span class='va'>`Time-Varying Polity Score`</span>, data <span class='op'>=</span> <span class='va'>icj_comp_bin</span>, family <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/family.html'>binomial</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></span>
+<span><span class='va'>fit2</span></span></code></pre>
+</div>
+<pre><code>
+Call:  glm(formula = Compliance ~ `Time-Varying Polity Score`, family = binomial(), 
+    data = icj_comp_bin)
+
+Coefficients:
+                (Intercept)  `Time-Varying Polity Score`  
+                    0.75573                      0.01708  
+
+Degrees of Freedom: 52 Total (i.e. Null);  51 Residual
+Null Deviance:      64.92 
+Residual Deviance: 64.77    AIC: 68.77</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>fit2</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code>
+Call:
+glm(formula = Compliance ~ `Time-Varying Polity Score`, family = binomial(), 
+    data = icj_comp_bin)
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-1.5875  -1.4797   0.8168   0.8347   0.9411  
+
+Coefficients:
+                            Estimate Std. Error z value Pr(&gt;|z|)  
+(Intercept)                  0.75573    0.36358   2.079   0.0377 *
+`Time-Varying Polity Score`  0.01708    0.04386   0.389   0.6969  
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 64.92  on 52  degrees of freedom
+Residual deviance: 64.77  on 51  degrees of freedom
+AIC: 68.77
+
+Number of Fisher Scoring iterations: 4</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>fit2</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'>broom</span><span class='fu'>::</span><span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'>knitr</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/knitr/man/kable.html'>kable</a></span><span class='op'>(</span>caption <span class='op'>=</span> <span class='st'>"Coefficient Estimates for a Model Fitted to Estimate Variation in Compliance"</span>, digits <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>2</span>,<span class='fl'>3</span>,<span class='fl'>2</span>,<span class='fl'>3</span><span class='op'>)</span>, col.names <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Predictor"</span>, <span class='st'>"Estimate"</span>, <span class='st'>"Std. Error"</span>, <span class='st'>"Statistic"</span>, <span class='st'>"P-value"</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
+</div>
+<table>
+<caption><span id="tab:unnamed-chunk-1">Table 1: </span>Coefficient Estimates for a Model Fitted to Estimate Variation in Compliance</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Predictor</th>
+<th style="text-align: right;">Estimate</th>
+<th style="text-align: right;">Std. Error</th>
+<th style="text-align: right;">Statistic</th>
+<th style="text-align: right;">P-value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">0.76</td>
+<td style="text-align: right;">0.364</td>
+<td style="text-align: right;">2.08</td>
+<td style="text-align: right;">0.038</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>Time-Varying Polity Score</code></td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">0.044</td>
+<td style="text-align: right;">0.39</td>
+<td style="text-align: right;">0.697</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>fit3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span><span class='op'>(</span><span class='va'>Compliance</span> <span class='op'>~</span> <span class='va'>`Time-Varying Polity Score`</span> <span class='op'>+</span> <span class='va'>`Judgement Year`</span>, data <span class='op'>=</span> <span class='va'>icj_comp_bin</span>, family <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/family.html'>binomial</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></span>
+<span><span class='va'>fit3</span></span></code></pre>
+</div>
+<pre><code>
+Call:  glm(formula = Compliance ~ `Time-Varying Polity Score` + `Judgement Year`, 
+    family = binomial(), data = icj_comp_bin)
+
+Coefficients:
+                (Intercept)  `Time-Varying Polity Score`  
+                  1.1701290                    0.0172381  
+           `Judgement Year`  
+                 -0.0002085  
+
+Degrees of Freedom: 52 Total (i.e. Null);  50 Residual
+Null Deviance:      64.92 
+Residual Deviance: 64.77    AIC: 70.77</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>fit3</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code>
+Call:
+glm(formula = Compliance ~ `Time-Varying Polity Score` + `Judgement Year`, 
+    family = binomial(), data = icj_comp_bin)
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-1.5895  -1.4771   0.8182   0.8359   0.9428  
+
+Coefficients:
+                              Estimate Std. Error z value Pr(&gt;|z|)
+(Intercept)                  1.1701290 28.1934246   0.042    0.967
+`Time-Varying Polity Score`  0.0172381  0.0451303   0.382    0.702
+`Judgement Year`            -0.0002085  0.0141844  -0.015    0.988
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 64.92  on 52  degrees of freedom
+Residual deviance: 64.77  on 50  degrees of freedom
+AIC: 70.77
+
+Number of Fisher Scoring iterations: 4</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>fit3</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'>knitr</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/knitr/man/kable.html'>kable</a></span><span class='op'>(</span>caption <span class='op'>=</span> <span class='st'>"Coefficient Estimates for a Model Fitted to Estimate Variation in Compliance"</span>,</span>
+<span>        col.names <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Predictor"</span>, <span class='st'>"Estimate"</span>, <span class='st'>"Std. Error"</span>, <span class='st'>"Statistic"</span>, <span class='st'>"P-value"</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
+</div>
+<table>
+<caption><span id="tab:unnamed-chunk-1">Table 1: </span>Coefficient Estimates for a Model Fitted to Estimate Variation in Compliance</caption>
+<colgroup>
+<col style="width: 39%" />
+<col style="width: 15%" />
+<col style="width: 15%" />
+<col style="width: 15%" />
+<col style="width: 14%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Predictor</th>
+<th style="text-align: right;">Estimate</th>
+<th style="text-align: right;">Std. Error</th>
+<th style="text-align: right;">Statistic</th>
+<th style="text-align: right;">P-value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">1.1701290</td>
+<td style="text-align: right;">28.1934246</td>
+<td style="text-align: right;">0.0415036</td>
+<td style="text-align: right;">0.9668944</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>Time-Varying Polity Score</code></td>
+<td style="text-align: right;">0.0172381</td>
+<td style="text-align: right;">0.0451303</td>
+<td style="text-align: right;">0.3819637</td>
+<td style="text-align: right;">0.7024883</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>Judgement Year</code></td>
+<td style="text-align: right;">-0.0002085</td>
+<td style="text-align: right;">0.0141844</td>
+<td style="text-align: right;">-0.0146998</td>
+<td style="text-align: right;">0.9882717</td>
 </tr>
 </tbody>
 </table>
 </div>
-<p>On average, democracies tend to comply more with International Court of Justice (ICJ) decisions. Non-democracies have a 66.7% likelihood of complying, while democracies have a 71.1% likelihood. Therefore, if a state is democratic, it is approximately 4% more likely to comply with ICJ rulings than non-democratic states.</p>
-<p>Sources: - <a href="https://www.systemicpeace.org/polity/polity4x.htm" class="uri">https://www.systemicpeace.org/polity/polity4x.htm</a> <a href="http://www.systemicpeace.org/inscrdata.html" class="uri">http://www.systemicpeace.org/inscrdata.html</a> - <a href="https://www.ifo.de/DocDL/dice-report-2019-3-hainz_moffet_rhode-october_0.pdf" class="uri">https://www.ifo.de/DocDL/dice-report-2019-3-hainz_moffet_rhode-october_0.pdf</a></p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<p>According to the <code>Time-Varying Polity Score</code> coefficient estimate, democracies comply slightly more with International Court of Justice (ICJ) decisions than non-democracies. Controlling for the year in which the judgement was released, a country is supposedly 1.7% more likely to comply with an ICJ decision with an increase in its Polity Score. However, no causal relationship can be proved as the P-value is higher than 0.5 and, therefore, not statistically significant.</p>
+<h2 id="notes">Notes</h2>
+<p>linear regression - uses likelihood estimate of normal regression
+binomial distribution =</p>
+<p>normal distribution = continuous
+OLS - solves when dependent varaible is normal</p>
+<p>The data type is time series cross-sectional (tscs) or panel data. For the purposes of simplicity and staying within the scope of this class, I will be assuming that my research design is cross-sectional.</p>
+<p>year in second explanatory variable - controlling for year variable -</p>
+<p>p-value - statistical significance - main coefficeint
+summary(m2.lm)</p>
+<p>three stars = statistically significant, testing how extreme test estimate is in world of null hypothesis (estimate = 0) - coefficient = 0 (no effect)</p>
+<p>scatterplot idea”</p>
+<p>comp_mean_plot2 &lt;- ggplot(icj_comp,
+mapping = aes(
+x = Compliance,
+y = <code>Time-Varying Polity Score</code>)) +
+geom_point() +
+geom_jitter(width = 10, height = 20) +
+xlim(0,1)
+comp_mean_plot2</p>
+<hr />
+<p>fit2 &lt;- lm(<code>Time-Varying Polity Score</code> ~ Compliance, data = icj_comp_bin)
+fit2
+summary(fit2)
+# include a linear regression with a continuous variable (Polity Score)</p>
+<h2 id="sources">Sources</h2>
+<p><a href="https://www.systemicpeace.org/polity/polity4x.htm" class="uri">https://www.systemicpeace.org/polity/polity4x.htm</a> <a href="http://www.systemicpeace.org/inscrdata.html" class="uri">http://www.systemicpeace.org/inscrdata.html</a> - <a href="https://www.ifo.de/DocDL/dice-report-2019-3-hainz_moffet_rhode-october_0.pdf" class="uri">https://www.ifo.de/DocDL/dice-report-2019-3-hainz_moffet_rhode-october_0.pdf</a></p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
