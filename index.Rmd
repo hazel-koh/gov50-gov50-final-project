@@ -140,7 +140,15 @@ fit3 |>
         col.names = c("Predictor", "Estimate", "Std. Error", "Statistic", "P-value"))
 ```
 
+```{r Visualization of Logistic Regression}
+ggplot(icj_comp_bin, aes(x=`Time-Varying Polity Score`, y=Compliance)) + 
+  geom_point(alpha=.5) +
+  stat_smooth(method="glm", se=FALSE, method.args = list(family=binomial))
+```
+
 According to the `Time-Varying Polity Score` coefficient estimate, democracies comply slightly more with International Court of Justice (ICJ) decisions than non-democracies. Controlling for the year in which the judgement was released, a country is supposedly 1.7% more likely to comply with an ICJ decision with an increase in its Polity Score. However, no causal relationship can be proved as the P-value is higher than 0.5 and, therefore, not statistically significant. 
+
+
 
 
 ## Notes
