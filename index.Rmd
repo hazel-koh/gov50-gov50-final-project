@@ -7,21 +7,18 @@ output:
     self_contained: false
 ---
 
-## Project thoughts
-
-I am interested in exploring data related to compliance with International Court of Justice decisions. I would like to determine whether a state's level of democracy, their government's ideology, or their aggregate power has a treatment effect on their willingness to comply with the Court's decisions. I will decide which of these treatment variables I would like to focus on based on the data I'm able to find.
-
 ## Research Proposal
 
 Are democracies more likely to comply with international law? I hope to answer this research question by analyzing democratic states' compliance with International Court of Justice (ICJ) decisions. I hypothesize that democracies have a higher record of compliance than their autocratic counterparts. My hypothesis stems from the tendency of democracies to value justice and respect the rule of law more than autocracies. Democracies might also face more pressure to comply, as they have greater accountability to their publics through transparency. My sample is comprised of ICJ cases that have occurred from 1947 to 2018. My unit of analysis is an ICJ case. The explanatory variable of interest is whether a state is a democracy or an autocracy according to their Polity score. The variable is coded = 1 for democracies (+6 to +10) and =0 for anocracies and autocracies (-10 to +5). For the purposes of this study, anocracies will be coded as autocracies. My outcome variable is a state's compliance rate. This variable is measured from Tom Ginsburg's data on ICJ compliance found in the Comparative Constitutions Project's dataset. I will calculate the compliance rate of states by dividing the number of times they have complied with an ICJ judgement by the number of times they have been required them to comply to a ruling. I would find support for my hypothesis if I observe a greater compliance rate by democracies and a positive coefficient when I run my regression of the compliance rate on the democracy variable. If I find that there is a negative or no relationship between these two variables, I will have to re-evaluate my hypothesis.
 
 ## Data Visualizations
 
-```{r Data Visualization 1: Democracy vs. Non-Democracy}
+```{r Data Visualization 1: Democracy vs. Non-Democracy - binary binary}
 library(tidyverse)
 library(ggplot2)
 icj_comp <- read_csv("icjcompliance2.csv")
 icj_comp
+
 
 ## democracy vs. non-democracy barplot
 comp_mean_dem <- icj_comp |>
@@ -29,8 +26,9 @@ comp_mean_dem <- icj_comp |>
     mutate(
     democracy = if_else(`Time-Varying Polity Score` >= 6, 1, 0)) |>
   group_by(democracy) |>
-  summarize(comp_mean =  mean(Compliance, na.rm = TRUE)) 
+  summarize(comp_mean =  mean(Compliance, na.rm = TRUE))
 comp_mean_dem
+
 
 comp_mean_plot <- ggplot(comp_mean_dem, 
        mapping = aes(
@@ -47,10 +45,28 @@ comp_mean_plot <- ggplot(comp_mean_dem,
 comp_mean_plot
 
 ggsave("comp_mean_plot.png")
+
 ```
-![](comp_mean_plot.png)
+```{r Difference in Means}
+comp_mean_ate <- icj_comp |>
+  drop_na() |>
+    mutate(
+    democracy = if_else(`Time-Varying Polity Score` >= 6, 1, 0)) |>
+  group_by(democracy) |>
+  summarize(comp_mean =  mean(Compliance, na.rm = TRUE)) |>
+  pivot_wider(names_from = democracy, values_from = comp_mean) |>
+  mutate(ATE = `1` - `0`)
+comp_mean_ate
+```
+6.46 treatment effect
+
+
+```{r Linear Regression}
+lm(comp_mean ~ democracy, data = comp_mean_dem) 
+```
+
 ```{r Data Visualization 2: Polity Score Breakdown }
-comp_pol <- icj_comp |>
+comp_pol_mean <- icj_comp |>
   drop_na() |>
     mutate(
     level_of_dem = case_when(
@@ -58,19 +74,21 @@ comp_pol <- icj_comp |>
       `Time-Varying Polity Score` < 10 & `Time-Varying Polity Score` >= 6 ~ "Democracy",
       `Time-Varying Polity Score` < 6 & `Time-Varying Polity Score` >= 1 ~ "Open Anocracy",
       `Time-Varying Polity Score` < 1 & `Time-Varying Polity Score` >= -5 ~ "Closed Anocracy",
-      `Time-Varying Polity Score` < -5 & `Time-Varying Polity Score` >= -10 ~ "Autocracy",
-    )) |>
+      `Time-Varying Polity Score` < -5 & `Time-Varying Polity Score` >= -10 ~ "Autocracy"),
+   level_of_dem = fct_relevel(as.factor(level_of_dem), levels = c("Full Democracy", "Democracy", "Open Anocracy", "Closed Anocracy", "Autocracy"))) |>
   group_by(level_of_dem) |>
   summarize(comp_mean =  mean(Compliance, na.rm = TRUE)) 
 
-comp_pol_plot <- comp_pol |>
-  ggplot(aes(x = comp_mean,
-         y = fct_reorder(level_of_dem, comp_mean),
+
+comp_pol_plot <- comp_pol_mean |>
+  ggplot(aes(x = level_of_dem,
+         y = comp_mean,
          fill = level_of_dem)) +
   geom_col() +
   theme_minimal() +
-  labs(x = "Average Compliance with ICJ Decisions",
-       y = "Regime Types") +
+  labs(x = "Regime Types",
+       y = "Average Compliance with ICJ Decisions",
+       title = "Average compliance per regime type") +
   theme(legend.position = "none")
 comp_pol_plot
 ```
@@ -79,40 +97,41 @@ comp_pol_plot
 icj_comp_bin <- icj_comp |>
   drop_na() |>
     mutate(
-    democracy = if_else(`Time-Varying Polity Score` >= 6, 1, 0),
-    compliance = if_else(Compliance == 1, "Compliance", "Non-compliance"))
-
-comp_mean_plot2 <- ggplot(icj_comp_bin, 
-       mapping = aes(
-      x = democracy,
-      y = Compliance, alpha = 0.2)) +
-  geom_point() +
-    geom_jitter(width = 0.03, height = 0.03)
-comp_mean_plot2
+    level_of_dem = case_when(
+      `Time-Varying Polity Score` == 10 ~ "Full Democracy",
+      `Time-Varying Polity Score` < 10 & `Time-Varying Polity Score` >= 6 ~ "Democracy",
+      `Time-Varying Polity Score` < 6 & `Time-Varying Polity Score` >= 1 ~ "Open Anocracy",
+      `Time-Varying Polity Score` < 1 & `Time-Varying Polity Score` >= -5 ~ "Closed Anocracy",
+      `Time-Varying Polity Score` < -5 & `Time-Varying Polity Score` >= -10 ~ "Autocracy"),
+    compliance = if_else(Compliance == 1, "Compliance", "Non-compliance"),
+    level_of_dem = fct_relevel(as.factor(level_of_dem), levels = c("Full Democracy", "Democracy", "Open Anocracy", "Closed Anocracy", "Autocracy"))) |>
+rename(exports = `Exports of Goods and Services (Current $USD)`)
 ```
-
 
 
 ```{r Visual Summary of Dependent Variable}
 dem_comp_plot <- icj_comp_bin |>
-  ggplot(aes(x = as.factor(democracy),
-             fill = as.factor(democracy))) +
+  ggplot(aes(x = as.factor(level_of_dem),
+             fill = as.factor(level_of_dem))) +
   geom_bar(binwidth = 1) +
-  scale_x_discrete(labels = c("Non-Democracy", "Democracy")) +
   labs(x = "",
        y = "Count") +
   facet_wrap(~ compliance) +
-  theme_minimal() +
-  theme(legend.position = "none")
+  theme(legend.position = "none",
+        axis.text.x = element_text(size = 5))
 dem_comp_plot
 ```
-
 
 ## Results and Analysis
 
 ```{r}
 library(broom)
-fit1 <- lm(comp_mean ~ democracy, data = comp_mean_dem)
+lin_reg <- icj_comp |>
+  drop_na() |>
+  group_by(`Time-Varying Polity Score`) |>
+  summarize(comp_mean =  mean(Compliance, na.rm = TRUE))
+
+fit1 <- lm(comp_mean ~ `Time-Varying Polity Score`, data = lin_reg)
 fit1
 
 fit1 |>
@@ -130,7 +149,7 @@ fit2 |>
   broom::tidy() |>
   knitr::kable(caption = "Coefficient Estimates for a Model Fitted to Estimate Variation in Compliance", digits = c(0,2,3,2,3), col.names = c("Predictor", "Estimate", "Std. Error", "Statistic", "P-value"))
 
-fit3 <- glm(Compliance ~ `Time-Varying Polity Score` + `Judgement Year`, data = icj_comp_bin, family = binomial())
+fit3 <- glm(Compliance ~ `Time-Varying Polity Score` + `Judgement Year` + exports, data = icj_comp_bin, family = binomial())
 fit3
 summary(fit3)
 
@@ -138,8 +157,12 @@ fit3 |>
   tidy() |>
   knitr::kable(caption = "Coefficient Estimates for a Model Fitted to Estimate Variation in Compliance",
         col.names = c("Predictor", "Estimate", "Std. Error", "Statistic", "P-value"))
-```
 
+
+library(equatiomatic)
+extract_eq(fit3)
+```
+rescale exports
 ```{r Visualization of Logistic Regression}
 ggplot(icj_comp_bin, aes(x=`Time-Varying Polity Score`, y=Compliance)) + 
   geom_point(alpha=.5) +
@@ -148,6 +171,11 @@ ggplot(icj_comp_bin, aes(x=`Time-Varying Polity Score`, y=Compliance)) +
 
 According to the `Time-Varying Polity Score` coefficient estimate, democracies comply slightly more with International Court of Justice (ICJ) decisions than non-democracies. Controlling for the year in which the judgement was released, a country is supposedly 1.7% more likely to comply with an ICJ decision with an increase in its Polity Score. However, no causal relationship can be proved as the P-value is higher than 0.5 and, therefore, not statistically significant.
 
+```{r}
+library(sjPlot)
+plot_model(fit3, type = "pred", terms = "Time-Varying Polity Score")
+
+```
 
 
 
@@ -189,8 +217,17 @@ fit2
 summary(fit2)
 # include a linear regression with a continuous variable (Polity Score)
 
+Blackwell feedback:
+
+use both linear and logistic regression
+- [ ]  time series data vs. cross sectional
+    - [ ]  cross sectional is fine
+    - [ ]  what variation am I willing to exploit
+    
+    - justify why I chose to break down into polity divisions
 
 
 ## Sources
 <https://www.systemicpeace.org/polity/polity4x.htm> <http://www.systemicpeace.org/inscrdata.html> - <https://www.ifo.de/DocDL/dice-report-2019-3-hainz_moffet_rhode-october_0.pdf>
+https://benwhalley.github.io/just-enough-r/link-functions.html 
 
