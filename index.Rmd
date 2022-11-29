@@ -7,68 +7,70 @@ output:
     self_contained: false
 ---
 
-## Research Proposal
+## Introduction
 
-Are democracies more likely to comply with international law? I hope to answer this research question by analyzing democratic states' compliance with International Court of Justice (ICJ) decisions. I hypothesize that democracies have a higher record of compliance than their autocratic counterparts. My hypothesis stems from the tendency of democracies to value justice and respect the rule of law more than autocracies. Democracies might also face more pressure to comply, as they have greater accountability to their publics through transparency. My sample is comprised of ICJ cases that have occurred from 1947 to 2018. My unit of analysis is an ICJ case. The explanatory variable of interest is whether a state is a democracy or an autocracy according to their Polity score. The variable is coded = 1 for democracies (+6 to +10) and =0 for anocracies and autocracies (-10 to +5). For the purposes of this study, anocracies will be coded as autocracies. My outcome variable is a state's compliance rate. This variable is measured from Tom Ginsburg's data on ICJ compliance found in the Comparative Constitutions Project's dataset. I will calculate the compliance rate of states by dividing the number of times they have complied with an ICJ judgement by the number of times they have been required them to comply to a ruling. I would find support for my hypothesis if I observe a greater compliance rate by democracies and a positive coefficient when I run my regression of the compliance rate on the democracy variable. If I find that there is a negative or no relationship between these two variables, I will have to re-evaluate my hypothesis.
+Do democracies tend to comply more with International Court of Justice (ICJ) decisions regarding legal disputes? While ICJ decisions are legally binding, they are not enforceable. A state has full discretion over whether it will follow the recommendations of the Court. I hypothesize that democracies have a higher record of compliance than their counterparts, because democracies tend to have a higher respect for justice and the rule of law. I would find support for my hypothesis if I observe a statistically significant p-value when I run my regression of the compliance rate on the democracy variable, controlling for the judgement’s year of release and countries’ exports in current US$ as potential confounders. If there is no statistically significant relationship between the two main variables of democracy level and compliance rate, I will have to re-evaluate my hypothesis. 
 
-## Data Visualizations
+The results would importantly shed light on the potential for international law to effectively facilitate international cooperation. A finding that democratic states have a higher respect for international law would reveal the shortcomings of international law in suggesting that complying with ICJ decisions remains more of a democratic norm than a global one. Moreover, a result of similarly low compliance rates by both democracies and non-democracies may suggest that international law does not yet play a significant role in state-to-state relations, while a finding of similarly high compliance rates would affirm the potential for international law to further cooperation among states regardless of their regime type.
 
-```{r Data Visualization 1: Democracy vs. Non-Democracy - binary binary}
+
+## Data
+
+To explore my hypothesis, I will be looking at contentious cases the ICJ has deliberated on between the years of 1947 and 2018. The main explanatory variable of interest is a state’s level of democracy (`level_of_dem`) according to their Polity score’s regime type in the year the judgement was released. The variable is measured through expert coding by the Center for Systemic Peace with a score of 10 for full democracies, scores of 6 to 9 for democracies, scores of 1 to 5 for open anocracies, scores of -5 to 0 for closed anocracies, and scores of -10 to -5 for autocracies. 
+
+My dependent variable is `Compliance` and is sourced from Dr. Tom Ginsburg’s dataset for his book, “Democracies and International Law.” I conducted additional research on whether there was any progress in states complying with a case since Dr. Ginsburg released the dataset and updated it accordingly. Cases are coded as 0 if states with the burden of compliance failed to comply and 1 if they followed the ICJ’s  recommendations. For the purpose of making a linear regression, I will change my dependent variable from the binary `Compliance` variable to a continuous average compliance variable (`comp_mean`).
+
+To create a better logistic regression model of the binary compliance variable on states’ level of democracy, I will also be using the explanatory variables of `Judgement Year` gathered from Dr. Tom Ginsburg’s dataset and exports of goods and services in current US$ using data from the World Bank. 
+
+Despite using time series data that focuses on countries’ level of democracy over the years 1947-2018, I will be assuming that my research design is cross-sectional for the purpose of simplicity and staying within the scope of this class. Using `level_of_dem` as my treatment variable, I will be comparing the treatment groups (full democracies and democracies) with the control groups (open anocracies, closed anocracies, and autocracies) to observe whether the treatment of being more democratic at the time of the judgement has an effect on compliance. 
+
+```{r Visual Summary of Dependent Variable}
+dem_comp_plot <- icj_comp_bin |>
+  ggplot(aes(x = as.factor(level_of_dem),
+             fill = as.factor(level_of_dem))) +
+  geom_bar(binwidth = 1) +
+  labs(x = "",
+       y = "Count") +
+  facet_wrap(~ compliance) +
+  theme(legend.position = "none",
+        axis.text.x = element_text(size = 5)) +
+  labs(x = "Regime Types",
+       title = "Visual summary of dependent `Compliance` variable")
+dem_comp_plot
+```
+
+
+## Results and Analysis
+
+```{r}
+comp_mean <- icj_comp |>
+  drop_na() |>
+  group_by(`Time-Varying Polity Score`) |>
+  summarize(comp_mean =  mean(Compliance, na.rm = TRUE)) 
+
+comp_mean_plot <- comp_mean |>
+  ggplot(aes(x = `Time-Varying Polity Score`,
+         y = comp_mean,
+         fill = `Time-Varying Polity Score`)) +
+  geom_col() +
+  theme_minimal() +
+  labs(x = "Polity Score",
+       y = "Average Compliance",
+       title = "Average compliance with ICJ decisions per Polity score") +
+  theme(legend.position = "none")
+comp_mean_plot
+```
+
+```{r Data Visualization: Polity Score Breakdown }
 library(tidyverse)
 library(ggplot2)
 icj_comp <- read_csv("icjcompliance2.csv")
 icj_comp
 
-
-## democracy vs. non-democracy barplot
-comp_mean_dem <- icj_comp |>
-  drop_na() |>
-    mutate(
-    democracy = if_else(`Time-Varying Polity Score` >= 6, 1, 0)) |>
-  group_by(democracy) |>
-  summarize(comp_mean =  mean(Compliance, na.rm = TRUE))
-comp_mean_dem
-
-
-comp_mean_plot <- ggplot(comp_mean_dem, 
-       mapping = aes(
-      x = factor(democracy),
-      y = comp_mean,
-      fill = factor(democracy))) +
-  geom_col() +
-  theme_minimal() +
-  labs(x = "Democracy",
-       y = "Compliance Mean",
-       title = "Democracy vs. Non-Democracy Compliance with ICJ Decisions") +
-  scale_x_discrete(labels = c("Non-Democracy", "Democracy")) +
-  theme(legend.position = "none")
-comp_mean_plot
-
-ggsave("comp_mean_plot.png")
-
-```
-```{r Difference in Means}
-comp_mean_ate <- icj_comp |>
-  drop_na() |>
-    mutate(
-    democracy = if_else(`Time-Varying Polity Score` >= 6, 1, 0)) |>
-  group_by(democracy) |>
-  summarize(comp_mean =  mean(Compliance, na.rm = TRUE)) |>
-  pivot_wider(names_from = democracy, values_from = comp_mean) |>
-  mutate(ATE = `1` - `0`)
-comp_mean_ate
-```
-6.46 treatment effect
-
-
-```{r Linear Regression}
-lm(comp_mean ~ democracy, data = comp_mean_dem) 
-```
-
-```{r Data Visualization 2: Polity Score Breakdown }
 comp_pol_mean <- icj_comp |>
   drop_na() |>
     mutate(
+    exports = `Exports of Goods and Services (Current $USD)`/1000000000,
     level_of_dem = case_when(
       `Time-Varying Polity Score` == 10 ~ "Full Democracy",
       `Time-Varying Polity Score` < 10 & `Time-Varying Polity Score` >= 6 ~ "Democracy",
@@ -87,16 +89,17 @@ comp_pol_plot <- comp_pol_mean |>
   geom_col() +
   theme_minimal() +
   labs(x = "Regime Types",
-       y = "Average Compliance with ICJ Decisions",
-       title = "Average compliance per regime type") +
+       y = "Average Compliance",
+       title = "Average compliance with ICJ decisions per regime type") +
   theme(legend.position = "none")
 comp_pol_plot
 ```
 
-```{r Scatterplot: Relationship between Democracy and Compliance}
+```{r se = FALSE}
 icj_comp_bin <- icj_comp |>
   drop_na() |>
     mutate(
+    exports = `Exports of Goods and Services (Current $USD)`/1000000000,
     level_of_dem = case_when(
       `Time-Varying Polity Score` == 10 ~ "Full Democracy",
       `Time-Varying Polity Score` < 10 & `Time-Varying Polity Score` >= 6 ~ "Democracy",
@@ -104,25 +107,9 @@ icj_comp_bin <- icj_comp |>
       `Time-Varying Polity Score` < 1 & `Time-Varying Polity Score` >= -5 ~ "Closed Anocracy",
       `Time-Varying Polity Score` < -5 & `Time-Varying Polity Score` >= -10 ~ "Autocracy"),
     compliance = if_else(Compliance == 1, "Compliance", "Non-compliance"),
-    level_of_dem = fct_relevel(as.factor(level_of_dem), levels = c("Full Democracy", "Democracy", "Open Anocracy", "Closed Anocracy", "Autocracy"))) |>
-rename(exports = `Exports of Goods and Services (Current $USD)`)
+    level_of_dem = fct_relevel(as.factor(level_of_dem), levels = c("Full Democracy", "Democracy", "Open Anocracy", "Closed Anocracy", "Autocracy"))) 
 ```
 
-
-```{r Visual Summary of Dependent Variable}
-dem_comp_plot <- icj_comp_bin |>
-  ggplot(aes(x = as.factor(level_of_dem),
-             fill = as.factor(level_of_dem))) +
-  geom_bar(binwidth = 1) +
-  labs(x = "",
-       y = "Count") +
-  facet_wrap(~ compliance) +
-  theme(legend.position = "none",
-        axis.text.x = element_text(size = 5))
-dem_comp_plot
-```
-
-## Results and Analysis
 
 ```{r}
 library(broom)
@@ -140,7 +127,20 @@ fit1 |>
   knitr::kable(caption = "Coefficient Estimates for a Model Fitted to Estimate Variation in Compliance")
 
 summary(fit1)
+```
 
+```{r Visualization of Logistic Regression}
+ggplot(lin_reg, 
+       aes(x=`Time-Varying Polity Score`, y=comp_mean)) +
+  geom_point(color = "steelblue1") +
+  geom_smooth(method="lm", se=FALSE) +
+  labs(x = "Polity Score",
+       y = "Average Compliance",
+       title = "Average compliance with ICJ decisions per Polity score")
+```
+According to the linear regression of average compliance on countries’ Polity scores, countries with a Polity score of 0 have a 71.3% likelihood of complying with ICJ decisions. With every 1 unit increase in its Polity score, a country is estimated to be 0.16% less likely to comply with an ICJ decision. Since the estimated coefficient of `Time-Varying Polity Score` is not statistically significant, however, no causal relationship between Polity score and likelihood of compliance with ICJ judgements can be made. 
+
+```{r}
 fit2 <- glm(Compliance ~ `Time-Varying Polity Score`, data = icj_comp_bin, family = binomial())
 fit2
 summary(fit2)
@@ -162,72 +162,22 @@ fit3 |>
 library(equatiomatic)
 extract_eq(fit3)
 ```
-rescale exports
+
+
 ```{r Visualization of Logistic Regression}
-ggplot(icj_comp_bin, aes(x=`Time-Varying Polity Score`, y=Compliance)) + 
-  geom_point(alpha=.5) +
-  stat_smooth(method="glm", se=FALSE, method.args = list(family=binomial))
-```
-
-According to the `Time-Varying Polity Score` coefficient estimate, democracies comply slightly more with International Court of Justice (ICJ) decisions than non-democracies. Controlling for the year in which the judgement was released, a country is supposedly 1.7% more likely to comply with an ICJ decision with an increase in its Polity Score. However, no causal relationship can be proved as the P-value is higher than 0.5 and, therefore, not statistically significant.
-
-```{r}
 library(sjPlot)
-plot_model(fit3, type = "pred", terms = "Time-Varying Polity Score")
-
+plot_model(fit3, type = "pred", terms = "Time-Varying Polity Score") +
+  labs(x = "Polity Score",
+       y = "Average Compliance (%)",
+       title = "Average compliance (%) per Polity score")
 ```
+A logistic regression of the binary variable of `Compliance` on a country’s Polity score controlling for the judgement year and a country’s exports in current USD$ shows that a 1 unit increase in a country’s Polity score is associated with a 1.13% decrease in the odds of compliance. However, the estimated coefficient of `Time-Varying Polity Score` is also not statistically significant in this logistic regression. Therefore, no causal relationship between Polity score and compliance with ICJ decisions can be assumed.
 
 
+## Conclusion
+With no statistical evidence of a causal relationship between a country’s Polity score and compliances, the hypothesis that democracies are more likely to comply with ICJ judgements cannot be proved and must either be rejected or re-evaluated. 
 
-## Notes
+Some limitations of this research design include the difficulty of measuring compliance, the data’s outdatedness, missing values, and unaccounted for confounders. Since there is no date by which states are required to comply with a decision, it may be that states who were coded to have failed to comply thus far intend to comply in the future. Moreover, the accuracy of the compliance values may be undermined due to a lack of information. For example, in cases involving reparations, it may be difficult to measure a state’s compliance if neither parties publicize whether reparations were made. It would be useful to have access to such information for more accurate results. Another limitation is that the dataset is from 2018 and lacks judgements that have been made since. To address this limitation, the current dataset should be updated with recent ICJ cases to increase the accuracy and representativeness of the sample. Increasing the sample of cases may also help to improve the results and accordingly its external validity. Similarly, cases in which judgements were made post-2015 lack Polity scores and cases with judgements made before 1960 have missing data on exports. It would have been useful to have had access to more recent Polity scores and past exports data. To improve internal validity, it may also be helpful to address different confounders that I could not control for because they were not in the dataset, such as GDP per capita and measures of military power. 
 
-linear regression - uses likelihood estimate of normal regression
-binomial distribution = 
-
-normal distribution = continuous
-OLS - solves when dependent varaible is normal
-
-The data type is time series cross-sectional (tscs) or panel data. For the purposes of simplicity and staying within the scope of this class, I will be assuming that my research design is cross-sectional. 
-
-
-year in second explanatory variable - controlling for year variable - 
-
-
-p-value - statistical significance - main coefficeint 
-summary(m2.lm)
-
-three stars = statistically significant, testing how extreme test estimate is in world of null hypothesis (estimate = 0) - coefficient = 0 (no effect)
-
-
-scatterplot idea"
-
-comp_mean_plot2 <- ggplot(icj_comp, 
-       mapping = aes(
-      x = Compliance,
-      y = `Time-Varying Polity Score`)) +
-  geom_point() +
-  geom_jitter(width = 10, height = 20) +
-  xlim(0,1)
-comp_mean_plot2
-
----
-
-fit2 <- lm(`Time-Varying Polity Score` ~ Compliance, data = icj_comp_bin)
-fit2
-summary(fit2)
-# include a linear regression with a continuous variable (Polity Score)
-
-Blackwell feedback:
-
-use both linear and logistic regression
-- [ ]  time series data vs. cross sectional
-    - [ ]  cross sectional is fine
-    - [ ]  what variation am I willing to exploit
-    
-    - justify why I chose to break down into polity divisions
-
-
-## Sources
-<https://www.systemicpeace.org/polity/polity4x.htm> <http://www.systemicpeace.org/inscrdata.html> - <https://www.ifo.de/DocDL/dice-report-2019-3-hainz_moffet_rhode-october_0.pdf>
-https://benwhalley.github.io/just-enough-r/link-functions.html 
+To better answer my research question about the causal link between democracies and their likelihood of complying with ICJ decisions, therefore, I will need to implement these changes before re-evaluating my hypothesis. 
 
