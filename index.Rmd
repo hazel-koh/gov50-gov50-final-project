@@ -175,7 +175,8 @@ ggplot(lin_reg,
   geom_point(color = "steelblue1") +
   geom_smooth(method="lm", se=FALSE) +
   labs(x = "Polity Score",
-       y = "Average Compliance")
+       y = "Average Compliance",
+       title = "Average Compliance per Polity Score")
 ```
 According to the linear regression of average compliance on countries’ Polity scores, countries with a Polity score of 0 have a 71.3% likelihood of complying with ICJ decisions. With every 1 unit increase in its Polity score, a country is estimated to be 0.16 percentage points less likely to comply with an ICJ decision. The two bar plots also illustrate that countries with lower Polity scores actually have a higher rate of compliance than countries with higher Polity scores. Since the estimated coefficient of `Time-Varying Polity Score` is not statistically significant with a p-value of 0.918, however, no statistically significant association between Polity score and likelihood of compliance with ICJ judgments can be proved. 
 
