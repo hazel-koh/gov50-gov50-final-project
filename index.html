@@ -115,7 +115,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["comp_mean_plot.png","icjcompliance.csv","icjcompliance2 2.csv","icjcompliance2.csv","icjcompliance3.csv","icjcompliance3.numbers","icjcompliance4.csv","icjcomplianceclean.numbers","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/Data Visualization 1: Democracy vs. Non-Democracy - binary binary-1.png","index_files/figure-html5/Data Visualization 1: Democracy vs. Non-Democracy-1.png","index_files/figure-html5/Data Visualization 2: Polity Score Breakdown-1.png","index_files/figure-html5/Data Visualization: Polity Score Breakdown-1.png","index_files/figure-html5/Scatterplot: Relationship between Democracy and Compliance-1.png","index_files/figure-html5/unnamed-chunk-1-1.png","index_files/figure-html5/unnamed-chunk-2-1.png","index_files/figure-html5/Visual Summary of Dependent Variable-1 2.png","index_files/figure-html5/Visual Summary of Dependent Variable-1.png","index_files/figure-html5/Visualization of Linear Regression-1.png","index_files/figure-html5/Visualization of Logistic Regression-1 2.png","index_files/figure-html5/Visualization of Logistic Regression-1.png","index_files/header-attrs-2.16/header-attrs.js","index_files/header-attrs-2.17/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/kePrint-0.0.1/kePrint.js","index_files/lightable-0.0.1/lightable.css","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["comp_mean_plot.png","icjcompliance.csv","icjcompliance2 2.csv","icjcompliance2.csv","icjcompliance3.csv","icjcompliance3.numbers","icjcompliance4.csv","icjcomplianceclean.numbers","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/Data Visualization 1: Democracy vs. Non-Democracy - binary binary-1.png","index_files/figure-html5/Data Visualization 1: Democracy vs. Non-Democracy-1.png","index_files/figure-html5/Data Visualization 2: Polity Score Breakdown-1.png","index_files/figure-html5/Data Visualization: Polity Score Breakdown-1.png","index_files/figure-html5/Scatterplot: Relationship between Democracy and Compliance-1.png","index_files/figure-html5/unnamed-chunk-1-1.png","index_files/figure-html5/unnamed-chunk-2-1.png","index_files/figure-html5/unnamed-chunk-3-1.png","index_files/figure-html5/Visual Summary of Dependent Variable-1 2.png","index_files/figure-html5/Visual Summary of Dependent Variable-1.png","index_files/figure-html5/Visualization of Linear Regression-1.png","index_files/figure-html5/Visualization of Logistic Regression-1 2.png","index_files/figure-html5/Visualization of Logistic Regression-1.png","index_files/header-attrs-2.16/header-attrs.js","index_files/header-attrs-2.17/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/kePrint-0.0.1/kePrint.js","index_files/lightable-0.0.1/lightable.css","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1524,40 +1524,26 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <p>The results would importantly shed light on the potential for international law to effectively facilitate international cooperation. A finding that democratic states have a higher respect for international law would reveal the shortcomings of international law in suggesting that complying with ICJ decisions remains more of a democratic norm than a global one. Moreover, a result of similarly low compliance rates by both democracies and non-democracies may suggest that international law does not yet play a significant role in state-to-state relations, while a finding of similarly high compliance rates would affirm the potential for international law to further cooperation among states regardless of their regime type.</p>
 <h2 id="data">Data</h2>
 <p>To explore my hypothesis, I will be looking at contentious cases the ICJ has deliberated on between the years of 1947 and 2018. The main explanatory variable of interest is a state’s <code>Time-Varying Polity Score</code> in the year the judgement was released. The variable is measured through expert coding by the Center for Systemic Peace with a score of 10 for full democracies, scores of 6 to 9 for democracies, scores of 1 to 5 for open anocracies, scores of -5 to 0 for closed anocracies, and scores of -10 to -5 for autocracies. For some analyses, I will use this categorization of regime types, <code>level_of_dem</code>, to better illustrate which countries can be considered more or less democratic.</p>
-<p>My dependent variable is <code>Compliance</code> and is sourced from Dr. Tom Ginsburg’s dataset for his book, “Democracies and International Law.” I conducted additional research on whether there was any progress in states complying with a case since Dr. Ginsburg released the dataset and updated it accordingly. Cases are coded as 0 if states with the burden of compliance failed to comply and 1 if they followed the ICJ’s recommendations. For the purpose of making a linear regression, I will change my dependent variable from the binary <code>Compliance</code> variable to a continuous average compliance variable (<code>comp_mean</code>).</p>
-<p>To create a better logistic regression model of the binary compliance variable on states’ level of democracy, I will also be using the explanatory variables of <code>Judgement Year</code> gathered from Dr. Tom Ginsburg’s dataset and exports of goods and services in current US$ using data from the World Bank.</p>
+<p>My dependent variable is <code>Compliance</code> and is sourced from Dr. Tom Ginsburg’s data set for his book, “Democracies and International Law.” I conducted additional research on whether there was any progress in states complying with a case since Dr. Ginsburg released the data set and updated it accordingly. Cases are coded as 0 if states with the burden of compliance failed to comply and 1 if they followed the ICJ’s recommendations. For the purpose of making a linear regression, I will use this binary <code>Compliance</code> variable to create a continuous average compliance variable named <code>comp_mean</code>.</p>
+<p>To create a better logistic regression model of the binary compliance variable on states’ level of democracy, I will also be using the explanatory variables of <code>Judgement Year</code> gathered from Dr. Tom Ginsburg’s data set and exports of goods and services in current US$ using data from the World Bank.</p>
 <p>Despite using time series data that focuses on countries’ level of democracy over the years 1947-2018, I will be assuming that my research design is cross-sectional for the purpose of simplicity and staying within the scope of this class. With <code>Time-Varying Polity Score</code> as my treatment variable, I will be observing whether the treatment of being more democratic at the time of the judgement has an effect on compliance.</p>
+<h5 id="visual-summary-of-dependent-compliance-variable">Visual Summary of Dependent <code>Compliance</code> Variable:</h5>
 <div class="layout-chunk" data-layout="l-body">
 <p><img src="index_files/figure-html5/Visual%20Summary%20of%20Dependent%20Variable-1.png" width="624" /></p>
 </div>
-<p>distreibution looks different</p>
+<p>In this visualization of the dependent <code>Compliance</code> variable, we can observe some differences in the distributions of regime types across two groups with different outcome values: one with compliance, and the other with non-compliance. For example, the compliance outcome reveals there are more cases of democracies complying than full democracies, autocracies, and open anocracies. Among the less democratic regime types, autocracies with the lowest Polity scores actually have the highest record of compliance. Moreover, the non-compliance outcome illustrates that there are overall fewer cases of non-compliance than compliance. Among these cases, autocracies have the lowest record of noncompliance, while full democracies have the highest.</p>
 <h2 id="results-and-analysis">Results and Analysis</h2>
+<h3 id="linear-regression">Linear Regression</h3>
+<h5 id="visualization-of-average-compliance-with-icj-decisions-per-polity-score">Visualization of Average Compliance with ICJ Decisions per Polity Score:</h5>
 <div class="layout-chunk" data-layout="l-body">
-<p><img src="index_files/figure-html5/unnamed-chunk-2-1.png" width="624" /></p>
+<p><img src="index_files/figure-html5/unnamed-chunk-3-1.png" width="624" /></p>
 </div>
+<h5 id="visualization-of-average-compliance-with-icj-decisions-per-regime-type">Visualization of Average Compliance with ICJ Decisions per Regime Type:</h5>
 <div class="layout-chunk" data-layout="l-body">
 <p><img src="index_files/figure-html5/Data%20Visualization:%20Polity%20Score%20Breakdown-1.png" width="624" /></p>
 </div>
+<h5 id="coefficient-estimates-for-a-linear-model-fitted-to-estimate-variation-in-average-compliance">Coefficient Estimates for a Linear Model Fitted to Estimate Variation in Average Compliance:</h5>
 <div class="layout-chunk" data-layout="l-body">
-<table>
-<caption><span id="tab:unnamed-chunk-6">Table 1: </span>Coefficient Estimates for a Model Fitted to Estimate Variation in Compliance</caption>
-<thead>
-<tr class="header">
-<th style="text-align: left;">term</th>
-<th style="text-align: right;">estimate</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">(Intercept)</td>
-<td style="text-align: right;">0.7134336</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>Time-Varying Polity Score</code></td>
-<td style="text-align: right;">-0.0015791</td>
-</tr>
-</tbody>
-</table>
 <table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -1640,105 +1626,14 @@ R2 Adj.
 </tbody>
 </table>
 </div>
+<h5 id="visualization-of-linear-regression-model">Visualization of Linear Regression Model:</h5>
 <div class="layout-chunk" data-layout="l-body">
 <p><img src="index_files/figure-html5/Visualization%20of%20Linear%20Regression-1.png" width="624" /></p>
 </div>
 <p>According to the linear regression of average compliance on countries’ Polity scores, countries with a Polity score of 0 have a 71.3% likelihood of complying with ICJ decisions. With every 1 unit increase in its Polity score, a country is estimated to be 0.16 percentage points less likely to comply with an ICJ decision. The two bar plots also illustrate that countries with lower Polity scores actually have a higher rate of compliance than countries with higher Polity scores. Since the estimated coefficient of <code>Time-Varying Polity Score</code> is not statistically significant with a p-value of 0.918, however, no statistically significant association between Polity score and likelihood of compliance with ICJ judgments can be proved.</p>
+<h3 id="logistic-regression">Logistic Regression</h3>
+<h5 id="coefficient-estimates-for-a-logistic-model-fitted-to-estimate-variation-in-compliance">Coefficient Estimates for a Logistic Model Fitted to Estimate Variation in Compliance:</h5>
 <div class="layout-chunk" data-layout="l-body">
-<table>
-<caption>
-<span id="tab:unnamed-chunk-8">Table 2: </span>Coefficient Estimates for a Model Fitted to Estimate Variation in Compliance
-</caption>
-<thead>
-<tr>
-<th style="text-align:left;">
-Predictor
-</th>
-<th style="text-align:right;">
-Estimate
-</th>
-<th style="text-align:right;">
-Std. Error
-</th>
-<th style="text-align:right;">
-Statistic
-</th>
-<th style="text-align:right;">
-P-value
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-(Intercept)
-</td>
-<td style="text-align:right;">
--63.7736946
-</td>
-<td style="text-align:right;">
-44.6735537
-</td>
-<td style="text-align:right;">
--1.4275492
-</td>
-<td style="text-align:right;">
-0.1534217
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-<code>Time-Varying Polity Score</code>
-</td>
-<td style="text-align:right;">
--0.0112748
-</td>
-<td style="text-align:right;">
-0.0548128
-</td>
-<td style="text-align:right;">
--0.2056971
-</td>
-<td style="text-align:right;">
-0.8370275
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-<code>Judgement Year</code>
-</td>
-<td style="text-align:right;">
-0.0324078
-</td>
-<td style="text-align:right;">
-0.0224478
-</td>
-<td style="text-align:right;">
-1.4436940
-</td>
-<td style="text-align:right;">
-0.1488251
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-exports
-</td>
-<td style="text-align:right;">
--0.0013173
-</td>
-<td style="text-align:right;">
-0.0015069
-</td>
-<td style="text-align:right;">
--0.8742043
-</td>
-<td style="text-align:right;">
-0.3820070
-</td>
-</tr>
-</tbody>
-</table>
 <table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -1885,6 +1780,7 @@ Num.Obs.
 </tbody>
 </table>
 </div>
+<h5 id="visualization-of-logistic-regression-model">Visualization of Logistic Regression Model:</h5>
 <div class="layout-chunk" data-layout="l-body">
 <p><img src="index_files/figure-html5/Visualization%20of%20Logistic%20Regression-1.png" width="624" /></p>
 </div>

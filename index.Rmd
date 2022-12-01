@@ -18,9 +18,9 @@ The results would importantly shed light on the potential for international law 
 
 To explore my hypothesis, I will be looking at contentious cases the ICJ has deliberated on between the years of 1947 and 2018. The main explanatory variable of interest is a state’s `Time-Varying Polity Score` in the year the judgement was released. The variable is measured through expert coding by the Center for Systemic Peace with a score of 10 for full democracies, scores of 6 to 9 for democracies, scores of 1 to 5 for open anocracies, scores of -5 to 0 for closed anocracies, and scores of -10 to -5 for autocracies. For some analyses, I will use this categorization of regime types, `level_of_dem`, to better illustrate which countries can be considered more or less democratic.  
 
-My dependent variable is `Compliance` and is sourced from Dr. Tom Ginsburg’s dataset for his book, “Democracies and International Law.” I conducted additional research on whether there was any progress in states complying with a case since Dr. Ginsburg released the dataset and updated it accordingly. Cases are coded as 0 if states with the burden of compliance failed to comply and 1 if they followed the ICJ’s  recommendations. For the purpose of making a linear regression, I will change my dependent variable from the binary `Compliance` variable to a continuous average compliance variable (`comp_mean`).
+My dependent variable is `Compliance` and is sourced from Dr. Tom Ginsburg’s data set for his book, “Democracies and International Law.” I conducted additional research on whether there was any progress in states complying with a case since Dr. Ginsburg released the data set and updated it accordingly. Cases are coded as 0 if states with the burden of compliance failed to comply and 1 if they followed the ICJ’s  recommendations. For the purpose of making a linear regression, I will use this binary `Compliance` variable to create a continuous average compliance variable named `comp_mean`.
 
-To create a better logistic regression model of the binary compliance variable on states’ level of democracy, I will also be using the explanatory variables of `Judgement Year` gathered from Dr. Tom Ginsburg’s dataset and exports of goods and services in current US$ using data from the World Bank. 
+To create a better logistic regression model of the binary compliance variable on states’ level of democracy, I will also be using the explanatory variables of `Judgement Year` gathered from Dr. Tom Ginsburg’s data set and exports of goods and services in current US$ using data from the World Bank. 
 
 Despite using time series data that focuses on countries’ level of democracy over the years 1947-2018, I will be assuming that my research design is cross-sectional for the purpose of simplicity and staying within the scope of this class. With `Time-Varying Polity Score` as my treatment variable, I will be observing whether the treatment of being more democratic at the time of the judgement has an effect on compliance.  
 
@@ -46,6 +46,7 @@ rename(exports = `Exports of Goods and Services (Current $USD)`)
 
 
 ```
+##### Visual Summary of Dependent `Compliance` Variable:
 ```{r Visual Summary of Dependent Variable, echo = FALSE}
 dem_comp_plot <- icj_comp_bin |>
   ggplot(aes(x = as.factor(level_of_dem),
@@ -56,33 +57,16 @@ dem_comp_plot <- icj_comp_bin |>
   facet_wrap(~ compliance) +
   theme(legend.position = "none",
         axis.text.x = element_text(size = 5)) +
-  labs(x = "Regime Types",
-       title = "Visual summary of dependent `Compliance` variable")
+  labs(x = "Regime Types") +
+  theme(plot.caption = element_text(hjust = 0.5))
 dem_comp_plot
 ```
+In this visualization of the dependent `Compliance` variable, we can observe some differences in the distributions of regime types across two groups with different outcome values: one with compliance, and the other with non-compliance. For example, the compliance outcome reveals there are more cases of democracies complying than full democracies, autocracies, and open anocracies. Among the less democratic regime types, autocracies with the lowest Polity scores actually have the highest record of compliance. Moreover, the non-compliance outcome illustrates that there are overall fewer cases of non-compliance than compliance. Among these cases, autocracies have the lowest record of noncompliance, while full democracies have the highest. 
 
-distreibution looks different 
 
 ## Results and Analysis
-
-```{r, echo = FALSE}
-comp_mean <- icj_comp |>
-  drop_na() |>
-  group_by(`Time-Varying Polity Score`) |>
-  summarize(comp_mean =  mean(Compliance, na.rm = TRUE)) 
-
-comp_mean_plot <- comp_mean |>
-  ggplot(aes(x = `Time-Varying Polity Score`,
-         y = comp_mean)) +
-  geom_col() +
-  theme_minimal() +
-  labs(x = "Polity Score",
-       y = "Average Compliance",
-       title = "Average compliance with ICJ decisions per Polity score") +
-  theme(legend.position = "none")
-comp_mean_plot
-```
-
+### Linear Regression
+##### Visualization of Average Compliance with ICJ Decisions per Polity Score:
 ```{r , include = FALSE }
 library(tidyverse)
 library(ggplot2)
@@ -103,6 +87,24 @@ comp_pol_mean <- icj_comp |>
   group_by(level_of_dem) |>
   summarize(comp_mean =  mean(Compliance, na.rm = TRUE)) 
 ```
+```{r, echo = FALSE}
+comp_mean <- icj_comp |>
+  drop_na() |>
+  group_by(`Time-Varying Polity Score`) |>
+  summarize(comp_mean =  mean(Compliance, na.rm = TRUE)) 
+
+comp_mean_plot <- comp_mean |>
+  ggplot(aes(x = `Time-Varying Polity Score`,
+         y = comp_mean)) +
+  geom_col(mapping = aes(fill = factor(`Time-Varying Polity Score`))) +
+  theme_minimal() +
+  labs(x = "Polity Score",
+       y = "Average Compliance") +
+  theme(legend.position = "none")
+comp_mean_plot
+```
+
+##### Visualization of Average Compliance with ICJ Decisions per Regime Type:
 ```{r Data Visualization: Polity Score Breakdown, echo = FALSE}
 comp_pol_plot <- comp_pol_mean |>
   ggplot(aes(x = level_of_dem,
@@ -111,8 +113,7 @@ comp_pol_plot <- comp_pol_mean |>
   geom_col() +
   theme_minimal() +
   labs(x = "Regime Types",
-       y = "Average Compliance",
-       title = "Average compliance with ICJ decisions per regime type") +
+       y = "Average Compliance") +
   theme(legend.position = "none")
 comp_pol_plot
 ```
@@ -145,12 +146,15 @@ fit1 <- lm(comp_mean ~ `Time-Varying Polity Score`, data = lin_reg)
 fit1
 ```
 
-```{r, echo = FALSE}
+```{r, include = FALSE}
 fit1 |>
   broom::tidy() |>
   dplyr::select(term, estimate) |>
   knitr::kable(caption = "Coefficient Estimates for a Model Fitted to Estimate Variation in Compliance")
+```
 
+##### Coefficient Estimates for a Linear Model Fitted to Estimate Variation in Average Compliance:
+```{r, echo = FALSE}
 var_labels <- c(
   "(Intercept)" = "Intercept",
   "Time-Varying Polity Score" = "Time-Varying Polity Score"
@@ -164,19 +168,18 @@ modelsummary::modelsummary(
   gof_map = c("nobs", "r.squared", "adj.r.squared", ""))
 ```
 
-
+##### Visualization of Linear Regression Model:
 ```{r Visualization of Linear Regression, echo = FALSE}
 ggplot(lin_reg, 
        aes(x=`Time-Varying Polity Score`, y=comp_mean)) +
   geom_point(color = "steelblue1") +
   geom_smooth(method="lm", se=FALSE) +
   labs(x = "Polity Score",
-       y = "Average Compliance",
-       title = "Average compliance with ICJ decisions per Polity score")
+       y = "Average Compliance")
 ```
 According to the linear regression of average compliance on countries’ Polity scores, countries with a Polity score of 0 have a 71.3% likelihood of complying with ICJ decisions. With every 1 unit increase in its Polity score, a country is estimated to be 0.16 percentage points less likely to comply with an ICJ decision. The two bar plots also illustrate that countries with lower Polity scores actually have a higher rate of compliance than countries with higher Polity scores. Since the estimated coefficient of `Time-Varying Polity Score` is not statistically significant with a p-value of 0.918, however, no statistically significant association between Polity score and likelihood of compliance with ICJ judgments can be proved. 
 
-
+### Logistic Regression
 ```{r , include = FALSE}
 fit2 <- glm(Compliance ~ `Time-Varying Polity Score`, data = icj_comp_bin, family = binomial())
 fit2
@@ -193,15 +196,14 @@ summary(fit3)
 
 library(equatiomatic)
 extract_eq(fit3)
-```
 
-```{r , echo = FALSE}
 fit3 |>
   tidy() |>
   knitr::kable(caption = "Coefficient Estimates for a Model Fitted to Estimate Variation in Compliance",
         col.names = c("Predictor", "Estimate", "Std. Error", "Statistic", "P-value"))
-
-
+```
+##### Coefficient Estimates for a Logistic Model Fitted to Estimate Variation in Compliance:
+```{r , echo = FALSE}
 var_labels2 <- c(
   "(Intercept)" = "Intercept",
   "Time-Varying Polity Score" = "Time-Varying Polity Score",
@@ -218,13 +220,13 @@ modelsummary::modelsummary(
 ```
 
 
-
+##### Visualization of Logistic Regression Model:
 ```{r Visualization of Logistic Regression, echo = FALSE}
 library(sjPlot)
 plot_model(fit3, type = "pred", terms = "Time-Varying Polity Score") +
   labs(x = "Polity Score",
-       y = "Average Compliance (%)",
-       title = "Average compliance (%) per Polity score")
+       y = "Compliance",
+       title = "Predicted Probabilities of Compliance per Polity Score")
 ```
 A logistic regression of the binary variable of `Compliance` on a country’s Polity score controlling for the judgement year and a country’s exports in current USD$ shows that a 1 unit increase in a country’s Polity score is associated with a 0.013 unit decrease in the odds of compliance. However, with a p-value of 0.837, the estimated coefficient of `Time-Varying Polity Score` is also not statistically significant in this logistic regression. Therefore, we cannot assume that there is a statistically significant association between Polity score and likelihood of compliance with ICJ judgments. 
 
