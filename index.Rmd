@@ -9,20 +9,20 @@ output:
 
 ## Introduction
 
-Do democracies tend to comply more with International Court of Justice (ICJ) decisions regarding legal disputes? While ICJ decisions are legally binding, they are not enforceable. A state has full discretion over whether it will follow the recommendations of the Court. I hypothesize that democracies have a higher record of compliance than their counterparts, because democracies tend to have a higher respect for justice and the rule of law. I would find support for my hypothesis if I observe a statistically significant p-value when I run my regression of the compliance rate on the democracy variable, controlling for the judgement’s year of release and countries’ exports in current US$ as potential confounders. If there is no statistically significant relationship between the two main variables of democracy level and compliance rate, I will have to re-evaluate my hypothesis. 
+Do democracies tend to comply more with International Court of Justice (ICJ) decisions regarding legal disputes? While ICJ decisions are legally binding, they are not enforceable. A state has full discretion over whether it will follow the recommendations of the Court. I hypothesize that democracies have a higher record of compliance than their counterparts, because democracies tend to have a higher respect for justice and the rule of law. I would find support for my hypothesis if I observe a statistically significant p-value when I run my regression of the compliance rate on the democracy variable, controlling for the judgment’s year of release and countries’ exports in current US$ as potential confounders. If there is no statistically significant relationship between the two main variables of democracy level and compliance rate, I will have to re-evaluate my hypothesis. 
 
 The results would importantly shed light on the potential for international law to effectively facilitate international cooperation. A finding that democratic states have a higher respect for ICJ decisions would reveal that complying with international law remains more of a democratic norm than a global one. Moreover, a result of similarly low compliance rates by both democracies and non-democracies may suggest that international law does not yet play a significant role in state-to-state relations, while a finding of similarly high compliance rates would affirm the potential for international law to further cooperation among states regardless of their regime type.
 
 
 ## Data
 
-To explore my hypothesis, I will be looking at contentious cases the ICJ has deliberated on between the years of 1947 and 2018. The main explanatory variable of interest is a state’s `Time-Varying Polity Score` in the year the judgement was released. The variable is measured through expert coding by the Center for Systemic Peace with a score of 10 for full democracies, scores of 6 to 9 for democracies, scores of 1 to 5 for open anocracies, scores of -5 to 0 for closed anocracies, and scores of -10 to -5 for autocracies. For some analyses, I will use this categorization of regime types, `level_of_dem`, to better illustrate which countries can be considered more or less democratic.  
+To explore my hypothesis, I will be looking at contentious cases the ICJ has deliberated on between the years of 1947 and 2018. The main explanatory variable of interest is a state’s `Time-Varying Polity Score` in the year the judgment was released. The variable is measured through expert coding by the Center for Systemic Peace with a score of 10 for full democracies, scores of 6 to 9 for democracies, scores of 1 to 5 for open anocracies, scores of -5 to 0 for closed anocracies, and scores of -10 to -5 for autocracies. For some analyses, I will use this categorization of regime types, `level_of_dem`, to better illustrate which countries can be considered more or less democratic.  
 
 My dependent variable is `Compliance` and is sourced from Dr. Tom Ginsburg’s data set for his book, “Democracies and International Law.” I conducted additional research on whether there was any progress in states complying with a case since Dr. Ginsburg released the data set in 2018 and updated it accordingly. If the ICJ required compliance from both parties, I added another row in the data set to record the second country's compliance status. Cases are coded as 0 if states with the burden of compliance failed to comply and 1 if they followed the ICJ’s  recommendations. For the purpose of making a linear regression, I will use this binary `Compliance` variable to create a continuous average compliance variable named `comp_mean`.
 
-To create a better logistic regression model of the binary compliance variable on states’ level of democracy, I will also be using the explanatory variables of `Judgement Year` gathered from Dr. Tom Ginsburg’s data set and exports of goods and services in current US$ using data from the World Bank. 
+To create a better logistic regression model of the binary compliance variable on states’ level of democracy, I will also be using the explanatory variables of `Judgment Year` gathered from Dr. Tom Ginsburg’s data set and exports of goods and services in current US$ using data from the World Bank. 
 
-Despite using time series data that focuses on countries’ level of democracy over the years 1947-2018, I will be assuming that my research design is cross-sectional for the purpose of simplicity and staying within the scope of this class. With `Time-Varying Polity Score` as my treatment variable, I will be observing whether the treatment of being more democratic at the time of the judgement has an effect on compliance.  
+Despite using time series data that focuses on countries’ level of democracy over the years 1947-2018, I will be assuming that my research design is cross-sectional for the purpose of simplicity and staying within the scope of this class. With `Time-Varying Polity Score` as my treatment variable, I will be observing whether the treatment of being more democratic at the time of the judgment has an effect on compliance.  
 
 ```{r, include = FALSE}
 library(tidyverse)
@@ -42,7 +42,8 @@ icj_comp_bin <- icj_comp |>
       `Time-Varying Polity Score` < -5 & `Time-Varying Polity Score` >= -10 ~ "Autocracy"),
     compliance = if_else(Compliance == 1, "Compliance", "Non-compliance"),
     level_of_dem = fct_relevel(as.factor(level_of_dem), levels = c("Full Democracy", "Democracy", "Open Anocracy", "Closed Anocracy", "Autocracy"))) |>
-rename(exports = `Exports of Goods and Services (Current $USD)`)
+rename(exports = `Exports of Goods and Services (Current $USD)`,
+       `Judgment Year` = `Judgement Year`)
 
 
 ```
@@ -131,7 +132,8 @@ icj_comp_bin <- icj_comp |>
       `Time-Varying Polity Score` < 1 & `Time-Varying Polity Score` >= -5 ~ "Closed Anocracy",
       `Time-Varying Polity Score` < -5 & `Time-Varying Polity Score` >= -10 ~ "Autocracy"),
     compliance = if_else(Compliance == 1, "Compliance", "Non-compliance"),
-    level_of_dem = fct_relevel(as.factor(level_of_dem), levels = c("Full Democracy", "Democracy", "Open Anocracy", "Closed Anocracy", "Autocracy"))) 
+    level_of_dem = fct_relevel(as.factor(level_of_dem), levels = c("Full Democracy", "Democracy", "Open Anocracy", "Closed Anocracy", "Autocracy"))) |>
+  rename(`Judgment Year` = `Judgement Year`)
 ```
 
 
@@ -190,7 +192,7 @@ fit2 |>
   broom::tidy() |>
   knitr::kable(caption = "Coefficient Estimates for a Model Fitted to Estimate Variation in Compliance", digits = c(0,2,3,2,3), col.names = c("Predictor", "Estimate", "Std. Error", "Statistic", "P-value"))
 
-fit3 <- glm(Compliance ~ `Time-Varying Polity Score` + `Judgement Year` + exports, data = icj_comp_bin, family = binomial())
+fit3 <- glm(Compliance ~ `Time-Varying Polity Score` + `Judgment Year` + exports, data = icj_comp_bin, family = binomial())
 fit3
 summary(fit3)
 
@@ -208,7 +210,7 @@ fit3 |>
 var_labels2 <- c(
   "(Intercept)" = "Intercept",
   "Time-Varying Polity Score" = "Time-Varying Polity Score",
-  "Judgement Year" = "Judgement Year",
+  "Judgment Year" = "Judgment Year",
   "exports" = "Exports in Current US$"
 )
 
@@ -229,7 +231,7 @@ plot_model(fit3, type = "pred", terms = "Time-Varying Polity Score") +
        y = "Compliance",
        title = "Predicted Probabilities of Compliance per Polity Score")
 ```
-A logistic regression of the binary variable of `Compliance` on a country’s Polity score controlling for the judgement year and a country’s exports in current USD$ shows that a 1 unit increase in a country’s Polity score is associated with a 0.013 unit decrease in the odds of compliance. However, with a p-value of 0.837, the estimated coefficient of `Time-Varying Polity Score` is also not statistically significant in this logistic regression. Therefore, we cannot assume that there is a statistically significant association between Polity score and likelihood of compliance with ICJ judgments. 
+A logistic regression of the binary variable of `Compliance` on a country’s Polity score controlling for the judgment year and a country’s exports in current USD$ shows that a 1 unit increase in a country’s Polity score is associated with a 0.013 unit decrease in the odds of compliance. However, with a p-value of 0.837, the estimated coefficient of `Time-Varying Polity Score` is also not statistically significant in this logistic regression. Therefore, we cannot assume that there is a statistically significant association between Polity score and likelihood of compliance with ICJ judgments. 
 
 
 ## Conclusion
